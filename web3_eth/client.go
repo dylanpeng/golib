@@ -1,4 +1,4 @@
-package eth
+package web3_eth
 
 import (
 	"context"
