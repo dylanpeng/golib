@@ -3,26 +3,29 @@ package http
 import (
 	"bytes"
 	"compress/gzip"
+	"crypto/tls"
 	"fmt"
 	"io"
 	"net/http"
 	"net/http/cookiejar"
+	"net/url"
 	"time"
 )
 
-type Client struct {
-	client *http.Client
+type ClientProxy struct {
+	client   *http.Client
+	proxyUrl string
 }
 
-func (c *Client) Get(url string, header map[string]string, body []byte) (rspCode int, rspBody []byte, err error) {
+func (c *ClientProxy) Get(url string, header map[string]string, body []byte) (rspCode int, rspBody []byte, err error) {
 	return c.Do(http.MethodGet, url, header, body)
 }
 
-func (c *Client) Post(url string, header map[string]string, body []byte) (rspCode int, rspBody []byte, err error) {
+func (c *ClientProxy) Post(url string, header map[string]string, body []byte) (rspCode int, rspBody []byte, err error) {
 	return c.Do(http.MethodPost, url, header, body)
 }
 
-func (c *Client) Do(method, url string, header map[string]string, body []byte) (rspCode int, rspBody []byte, err error) {
+func (c *ClientProxy) Do(method, url string, header map[string]string, body []byte) (rspCode int, rspBody []byte, err error) {
 	var req *http.Request
 
 	if len(body) > 0 {
@@ -68,7 +71,14 @@ func (c *Client) Do(method, url string, header map[string]string, body []byte) (
 	return
 }
 
-func NewClient(timeout time.Duration) *Client {
+func NewClientProxy(proxyUrl string, timeout time.Duration) *Client {
 	cookie, _ := cookiejar.New(nil)
-	return &Client{client: &http.Client{Jar: cookie, Timeout: timeout}}
+
+	proxy, _ := url.Parse(proxyUrl)
+	tr := &http.Transport{
+		Proxy:           http.ProxyURL(proxy),
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+	return &Client{client: &http.Client{Jar: cookie, Transport: tr, Timeout: timeout}}
 }
