@@ -3,10 +3,12 @@ package http
 import (
 	"bytes"
 	"compress/gzip"
+	"crypto/tls"
 	"fmt"
 	"io"
 	"net/http"
 	"net/http/cookiejar"
+	"net/url"
 	"time"
 )
 
@@ -71,4 +73,16 @@ func (c *Client) Do(method, url string, header map[string]string, body []byte) (
 func NewClient(timeout time.Duration) *Client {
 	cookie, _ := cookiejar.New(nil)
 	return &Client{client: &http.Client{Jar: cookie, Timeout: timeout}}
+}
+
+func NewClientProxy(proxyUrl string, timeout time.Duration) *Client {
+	cookie, _ := cookiejar.New(nil)
+
+	proxy, _ := url.Parse(proxyUrl)
+	tr := &http.Transport{
+		Proxy:           http.ProxyURL(proxy),
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+	return &Client{client: &http.Client{Jar: cookie, Transport: tr, Timeout: timeout}}
 }
