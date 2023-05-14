@@ -32,17 +32,12 @@ func TestProducerConsumerGroup(t *testing.T) {
 
 	go produceMessage(producer)
 
-	consumerGroupConf := &ConsumerGroupConfig{
-		Brokers:         []string{"localhost:9092"},
-		ConsumerConfigs: make([]*ConsumerConfig, 0, 8),
-	}
-
-	consumerGroupConf.ConsumerConfigs = append(consumerGroupConf.ConsumerConfigs, &ConsumerConfig{
-		Brokers: consumerGroupConf.Brokers,
+	consumerGroupConf := &ConsumerConfig{
+		Brokers: []string{"localhost:9092"},
 		GroupId: "consumer_group_1",
 		Topic:   "testgo",
 		Worker:  10,
-	})
+	}
 
 	doMessage := func(v []byte) error {
 		Log.Infof("receive msg. | value: %s", string(v))
@@ -51,7 +46,7 @@ func TestProducerConsumerGroup(t *testing.T) {
 	}
 
 	go func() {
-		consumer, _ := NewConsumer(consumerGroupConf.ConsumerConfigs[0], Log, doMessage)
+		consumer, _ := NewConsumer(consumerGroupConf, Log, doMessage)
 
 		time.Sleep(15 * time.Second)
 		consumer.Stop()

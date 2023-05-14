@@ -7,16 +7,16 @@ import (
 	"sync"
 )
 
-type BaseConsumerGroupHandler struct {
-	logger  *logger.Logger
+type ConsumerHandler struct {
+	logger  logger.ILogger
 	handler func([]byte) error
 	ctx     context.Context
 	worker  int
 	wg      *sync.WaitGroup
 }
 
-func NewBaseConsumerGroupHandler(ctx context.Context, worker int, logger *logger.Logger, handler func([]byte) error) *BaseConsumerGroupHandler {
-	result := &BaseConsumerGroupHandler{
+func NewConsumerHandler(ctx context.Context, worker int, logger logger.ILogger, handler func([]byte) error) *ConsumerHandler {
+	result := &ConsumerHandler{
 		logger:  logger,
 		handler: handler,
 		ctx:     ctx,
@@ -31,32 +31,32 @@ func NewBaseConsumerGroupHandler(ctx context.Context, worker int, logger *logger
 	return result
 }
 
-func (*BaseConsumerGroupHandler) Setup(_ sarama.ConsumerGroupSession) error   { return nil }
-func (*BaseConsumerGroupHandler) Cleanup(_ sarama.ConsumerGroupSession) error { return nil }
+func (*ConsumerHandler) Setup(_ sarama.ConsumerGroupSession) error   { return nil }
+func (*ConsumerHandler) Cleanup(_ sarama.ConsumerGroupSession) error { return nil }
 
 // ConsumeClaim every partition call once
-func (c *BaseConsumerGroupHandler) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
+func (c *ConsumerHandler) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
 	for i := 0; i < c.worker; i++ {
 		c.wg.Add(1)
 		go c.receive(sess, claim)
 	}
 
 	c.wg.Wait()
-	c.logger.Infof("BaseConsumerGroupHandler ConsumeClaim finish.")
+	c.logger.Infof("ConsumerHandler ConsumeClaim finish.")
 	return nil
 }
 
-func (c *BaseConsumerGroupHandler) receive(sess sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) {
+func (c *ConsumerHandler) receive(sess sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) {
 	defer c.wg.Done()
 
 	for {
 		select {
 		case <-c.ctx.Done():
-			c.logger.Infof("BaseConsumerGroupHandler receive context have close")
+			c.logger.Infof("ConsumerHandler receive context have close")
 			return
 		case msg, ok := <-claim.Messages():
 			if !ok {
-				c.logger.Infof("BaseConsumerGroupHandler receive message channel have close")
+				c.logger.Infof("ConsumerHandler receive message channel have close")
 				return
 			}
 

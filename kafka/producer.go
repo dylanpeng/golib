@@ -16,7 +16,7 @@ type ProducerConfig struct {
 type Producer struct {
 	c      *ProducerConfig
 	client sarama.AsyncProducer
-	logger *logger.Logger
+	logger logger.ILogger
 	ctx    context.Context
 	cancel context.CancelFunc
 	wg     *sync.WaitGroup
@@ -73,7 +73,7 @@ func (p *Producer) logErr() {
 	}
 }
 
-func NewProducer(c *ProducerConfig, logger *logger.Logger) (producer *Producer, err error) {
+func NewProducer(c *ProducerConfig, logger logger.ILogger) (producer *Producer, err error) {
 	producer = &Producer{
 		c:      c,
 		logger: logger,

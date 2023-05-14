@@ -6,13 +6,8 @@ import (
 	"github.com/dylanpeng/golib/logger"
 )
 
-type ConsumerGroupConfig struct {
-	Brokers         []string          `toml:"brokers" json:"brokers"`
-	ConsumerConfigs []*ConsumerConfig `toml:"groups" json:"groups"`
-}
-
 type ConsumerConfig struct {
-	Brokers []string `toml:"_" json:"_"`
+	Brokers []string `toml:"brokers" json:"brokers"`
 	GroupId string   `toml:"group_id" json:"group_id"`
 	Topic   string   `toml:"topic" json:"topic"`
 	Worker  int      `toml:"worker" json:"worker"`
@@ -21,17 +16,17 @@ type ConsumerConfig struct {
 type Consumer struct {
 	c       *ConsumerConfig
 	client  sarama.ConsumerGroup
-	logger  *logger.Logger
+	logger  logger.ILogger
 	ctx     context.Context
-	handler *BaseConsumerGroupHandler
+	handler sarama.ConsumerGroupHandler
 }
 
-func NewConsumer(c *ConsumerConfig, logger *logger.Logger, handle func([]byte) error) (*Consumer, error) {
+func NewConsumer(c *ConsumerConfig, logger logger.ILogger, handle func([]byte) error) (*Consumer, error) {
 	config := sarama.NewConfig()
 	config.Consumer.Return.Errors = true
 	config.Consumer.Offsets.Initial = sarama.OffsetNewest //初始从最新的offset开始
 
-	group, err := sarama.NewConsumerGroup([]string{"localhost:9092"}, c.GroupId, config)
+	group, err := sarama.NewConsumerGroup(c.Brokers, c.GroupId, config)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +38,7 @@ func NewConsumer(c *ConsumerConfig, logger *logger.Logger, handle func([]byte) e
 		client:  group,
 		logger:  logger,
 		ctx:     ctx,
-		handler: NewBaseConsumerGroupHandler(ctx, c.Worker, logger, handle),
+		handler: NewConsumerHandler(ctx, c.Worker, logger, handle),
 	}
 
 	go consumer.run()
