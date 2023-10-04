@@ -13,12 +13,12 @@ import (
 
 type ConsumerConfig struct {
 	*ConnectConfig
-	Topic     string   `toml:"topic" json:"topic"`
-	Group     string   `toml:"group" json:"group"`
-	Orderly   bool     `toml:"orderly" json:"orderly"`
-	FromFirst bool     `toml:"from_first" json:"from_first"`
-	Tags      []string `toml:"tags" json:"tags"`
-	Worker    int      `toml:"worker" json:"worker"`
+	Topic     string   `toml:"topic" json:"topic" yaml:"topic"`
+	Group     string   `toml:"group" json:"group" yaml:"group"`
+	Orderly   bool     `toml:"orderly" json:"orderly" yaml:"orderly"`
+	FromFirst bool     `toml:"from_first" json:"from_first" yaml:"from_first"`
+	Tags      []string `toml:"tags" json:"tags" yaml:"tags"`
+	Worker    int      `toml:"worker" json:"worker" yaml:"worker"`
 }
 
 type Consumer struct {

@@ -7,8 +7,8 @@ import (
 )
 
 type ClusterConfig struct {
-	Addrs    []string `toml:"addrs" json:"addrs"`
-	Password string   `toml:"password" json:"password"`
+	Addrs    []string `toml:"addrs" json:"addrs" yaml:"addrs"`
+	Password string   `toml:"password" json:"password" yaml:"password"`
 }
 
 type ClusterPool struct {

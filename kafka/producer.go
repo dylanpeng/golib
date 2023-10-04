@@ -10,7 +10,7 @@ import (
 )
 
 type ProducerConfig struct {
-	Brokers []string `toml:"brokers" json:"brokers"`
+	Brokers []string `toml:"brokers" json:"brokers" yaml:"brokers"`
 }
 
 type Producer struct {

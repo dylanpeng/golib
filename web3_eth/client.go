@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	Addr string `toml:"addr" json:"addr"`
+	Addr string `toml:"addr" json:"addr" yaml:"addr"`
 }
 
 type Client struct {

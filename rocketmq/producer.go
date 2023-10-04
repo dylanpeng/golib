@@ -12,12 +12,12 @@ import (
 )
 
 type Message struct {
-	Topic       string   `json:"topic"`
-	Payload     []byte   `json:"payload"`
-	Tag         string   `json:"tag"`
-	Keys        []string `json:"keys"`
-	ShardingKey string   `json:"sharding_key"`
-	DelayLevel  int      `json:"delay_level"`
+	Topic       string   `json:"topic" toml:"topic" yaml:"topic"`
+	Payload     []byte   `json:"payload" toml:"payload" yaml:"payload"`
+	Tag         string   `json:"tag" toml:"tag" yaml:"tag"`
+	Keys        []string `json:"keys" toml:"keys" yaml:"keys"`
+	ShardingKey string   `json:"sharding_key" toml:"sharding_key" yaml:"sharding_key"`
+	DelayLevel  int      `json:"delay_level" toml:"delay_level" yaml:"delay_level"`
 }
 
 func (m *Message) String() string {

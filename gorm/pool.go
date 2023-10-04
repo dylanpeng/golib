@@ -12,16 +12,16 @@ import (
 )
 
 type Config struct {
-	Host         string `toml:"hots" json:"host"`
-	Port         int    `toml:"port" json:"port"`
-	User         string `toml:"user" json:"user"`
-	Password     string `toml:"password" json:"password"`
-	Charset      string `toml:"charset" json:"charset"`
-	Database     string `toml:"database" json:"database"`
-	Timeout      int    `toml:"timeout" json:"timeout"`
-	MaxOpenConns int    `toml:"max_open_conns" json:"max_open_conns"`
-	MaxIdleConns int    `toml:"max_idle_conns" json:"max_idle_conns"`
-	MaxConnTtl   int    `toml:"max_conn_ttl" json:"max_conn_ttl"`
+	Host         string `toml:"hots" json:"host" yaml:"host"`
+	Port         int    `toml:"port" json:"port" yaml:"port"`
+	User         string `toml:"user" json:"user" yaml:"user"`
+	Password     string `toml:"password" json:"password" yaml:"password"`
+	Charset      string `toml:"charset" json:"charset" yaml:"charset"`
+	Database     string `toml:"database" json:"database" yaml:"database"`
+	Timeout      int    `toml:"timeout" json:"timeout" yaml:"timeout"`
+	MaxOpenConns int    `toml:"max_open_conns" json:"max_open_conns" yaml:"max_open_conns"`
+	MaxIdleConns int    `toml:"max_idle_conns" json:"max_idle_conns" yaml:"max_idle_conns"`
+	MaxConnTtl   int    `toml:"max_conn_ttl" json:"max_conn_ttl" yaml:"max_conn_ttl"`
 }
 
 func (c *Config) GetDsn() string {

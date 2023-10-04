@@ -3,10 +3,10 @@ package rocketmq
 import "github.com/dylanpeng/golib/logger"
 
 type ConnectConfig struct {
-	Endpoints     []string `toml:"endpoints" json:"endpoints"`
-	AccessKey     string   `toml:"access_key" json:"access_key"`
-	SecretKey     string   `toml:"secret_key" json:"secret_key"`
-	SecurityToken string   `toml:"security_token" json:"security_token"`
+	Endpoints     []string `toml:"endpoints" json:"endpoints" yaml:"endpoints"`
+	AccessKey     string   `toml:"access_key" json:"access_key" yaml:"access_key"`
+	SecretKey     string   `toml:"secret_key" json:"secret_key" yaml:"secret_key"`
+	SecurityToken string   `toml:"security_token" json:"security_token" yaml:"security_token"`
 }
 
 type Logger struct {

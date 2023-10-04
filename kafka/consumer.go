@@ -7,10 +7,10 @@ import (
 )
 
 type ConsumerConfig struct {
-	Brokers []string `toml:"brokers" json:"brokers"`
-	GroupId string   `toml:"group_id" json:"group_id"`
-	Topic   string   `toml:"topic" json:"topic"`
-	Worker  int      `toml:"worker" json:"worker"`
+	Brokers []string `toml:"brokers" json:"brokers" yaml:"brokers"`
+	GroupId string   `toml:"group_id" json:"group_id" yaml:"group_id"`
+	Topic   string   `toml:"topic" json:"topic" yaml:"topic"`
+	Worker  int      `toml:"worker" json:"worker" yaml:"worker"`
 }
 
 type Consumer struct {

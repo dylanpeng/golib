@@ -9,9 +9,9 @@ import (
 )
 
 type Config struct {
-	Host     string `toml:"host" json:"host"`
-	Port     int    `toml:"port" json:"port"`
-	Password string `toml:"password" json:"password"`
+	Host     string `toml:"host" json:"host" yaml:"host"`
+	Port     int    `toml:"port" json:"port" yaml:"port"`
+	Password string `toml:"password" json:"password" yaml:"password"`
 }
 
 func (c *Config) GetAddr() string {

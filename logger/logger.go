@@ -9,10 +9,10 @@ import (
 )
 
 type Config struct {
-	FilePath   string `toml:"file_path" json:"file_path"`
-	Level      string `toml:"level" json:"level"`
-	TimeFormat string `toml:"time_format" json:"time_format"`
-	MaxAgeDay  int    `toml:"max_age_day" json:"max_age_day"`
+	FilePath   string `toml:"file_path" json:"file_path" yaml:"file_path"`
+	Level      string `toml:"level" json:"level" yaml:"level"`
+	TimeFormat string `toml:"time_format" json:"time_format" yaml:"time_format"`
+	MaxAgeDay  int    `toml:"max_age_day" json:"max_age_day" yaml:"max_age_day"`
 }
 
 func DefaultConfig() *Config {

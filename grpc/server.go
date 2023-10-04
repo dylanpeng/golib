@@ -8,8 +8,8 @@ import (
 )
 
 type Config struct {
-	Host string `toml:"host" json:"host"`
-	Port int    `toml:"port" json:"port"`
+	Host string `toml:"host" json:"host" yaml:"host"`
+	Port int    `toml:"port" json:"port" yaml:"port"`
 }
 
 func (c *Config) GetAddr() string {

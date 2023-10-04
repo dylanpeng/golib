@@ -17,17 +17,17 @@ import (
 
 // TlsConfig https config
 type TlsConfig struct {
-	Enable   bool   `toml:"enable" json:"enable"`
-	CertPath string `toml:"cert_path" json:"cert_path"`
-	KeyPath  string `toml:"key_path" json:"key_path"`
+	Enable   bool   `toml:"enable" json:"enable" yaml:"enable"`
+	CertPath string `toml:"cert_path" json:"cert_path" yaml:"cert_path"`
+	KeyPath  string `toml:"key_path" json:"key_path" yaml:"key_path"`
 }
 
 type Config struct {
-	Host  string     `toml:"host" json:"host"`
-	Port  int        `toml:"port" json:"port"`
-	Gzip  bool       `toml:"gzip" json:"gzip"`
-	PProf bool       `toml:"pprof" json:"PProf"`
-	Tls   *TlsConfig `toml:"tls"  json:"tls"`
+	Host  string     `toml:"host" json:"host" yaml:"host"`
+	Port  int        `toml:"port" json:"port" yaml:"port"`
+	Gzip  bool       `toml:"gzip" json:"gzip" yaml:"gzip"`
+	PProf bool       `toml:"pprof" json:"pprof" yaml:"pprof"`
+	Tls   *TlsConfig `toml:"tls"  json:"tls" yaml:"tls"`
 }
 
 func (c *Config) GetAddr() string {

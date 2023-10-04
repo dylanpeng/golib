@@ -22,8 +22,8 @@ const (
 )
 
 type Config struct {
-	Addrs   []string `toml:"addrs" json:"addrs"`
-	Timeout int64    `toml:"timeout" json:"timeout"`
+	Addrs   []string `toml:"addrs" json:"addrs" yaml:"addrs"`
+	Timeout int64    `toml:"timeout" json:"timeout" yaml:"timeout"`
 }
 
 type zkLogger struct {

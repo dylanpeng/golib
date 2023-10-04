@@ -9,10 +9,10 @@ import (
 )
 
 type Config struct {
-	Addrs    []string `toml:"addrs" json:"addrs"`
-	Timeout  int64    `toml:"timeout" json:"timeout"`
-	UserName string   `toml:"user_name" json:"user_name"`
-	Password string   `toml:"password" json:"password"`
+	Addrs    []string `toml:"addrs" json:"addrs" yaml:"addrs"`
+	Timeout  int64    `toml:"timeout" json:"timeout" yaml:"timeout"`
+	UserName string   `toml:"user_name" json:"user_name" yaml:"user_name"`
+	Password string   `toml:"password" json:"password" yaml:"password"`
 }
 
 func GetDefaultConfig() *Config {
